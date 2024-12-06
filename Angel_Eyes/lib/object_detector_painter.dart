@@ -4,9 +4,9 @@ import 'dart:ui' as ui;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';
-import 'package:visual_impaired_app/globals.dart' as globals;
+import 'globals.dart' as globals;
 
-import '../controllers/coordinates_translator.dart';
+import 'coordinates.dart';
 
 import './text_to_speech.dart';
 
@@ -222,6 +222,8 @@ class ObjectDetectorPainter extends CustomPainter {
     } else if (objectX > screenWidthHalf && objectY > screenHeightHalf) {
       return 'bottom right';
     }
+
+    return 'center';
   }
 
   @override

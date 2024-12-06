@@ -45,6 +45,8 @@ dependencies:
   image_picker: ^1.0.7
   wakelock: ^0.6.2
   speech_to_text: ^6.6.0
+  tflite_flutter: ^0.10.0
+  image: ^3.0.1
 
 dev_dependencies:
   flutter_test:

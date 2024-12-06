@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:visual_impaired_app/globals.dart' as globals;
-import 'package:visual_impaired_app/views/text_to_speech.dart';
+import 'globals.dart' as globals;
+import 'text_to_speech.dart';
 
 class CameraView extends StatefulWidget {
   CameraView(
@@ -146,35 +146,12 @@ class _CameraViewState extends State<CameraView> {
                     child: widget.customPaint,
                   ),
           ),
-          // _backButton(),
-          // _switchLiveCameraToggle(),
-          // _detectionViewModeToggle(),
-          // _zoomControl(),
-          // _exposureControl(),
           _voiceButton(),
           _additionalText()
         ],
       ),
     );
   }
-
-  // Widget _backButton() => Positioned(
-  //       top: 40,
-  //       left: 8,
-  //       child: SizedBox(
-  //         height: 50.0,
-  //         width: 50.0,
-  //         child: FloatingActionButton(
-  //           heroTag: Object(),
-  //           onPressed: () => Navigator.of(context).pop(),
-  //           backgroundColor: Colors.black54,
-  //           child: Icon(
-  //             Icons.arrow_back_ios_outlined,
-  //             size: 20,
-  //           ),
-  //         ),
-  //       ),
-  //     );
 
   Widget _detectionViewModeToggle() => Positioned(
         bottom: 8,
@@ -437,10 +414,6 @@ class _CameraViewState extends State<CameraView> {
   InputImage? _inputImageFromCameraImage(CameraImage image) {
     if (_controller == null) return null;
 
-    // get image rotation
-    // it is used in android to convert the InputImage from Dart to Java: https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/google_mlkit_commons/android/src/main/java/com/google_mlkit_commons/InputImageConverter.java
-    // `rotation` is not used in iOS to convert the InputImage from Dart to Obj-C: https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/google_mlkit_commons/ios/Classes/MLKVisionImage%2BFlutterPlugin.m
-    // in both platforms `rotation` and `camera.lensDirection` can be used to compensate `x` and `y` coordinates on a canvas: https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/example/lib/vision_detector_views/painters/coordinates_translator.dart
     final camera = _cameras[_cameraIndex];
     final sensorOrientation = camera.sensorOrientation;
     // print(
@@ -461,26 +434,17 @@ class _CameraViewState extends State<CameraView> {
             (sensorOrientation - rotationCompensation + 360) % 360;
       }
       rotation = InputImageRotationValue.fromRawValue(rotationCompensation);
-      // print('rotationCompensation: $rotationCompensation');
     }
     if (rotation == null) return null;
-    // print('final rotation: $rotation');
 
-    // get image format
     final format = InputImageFormatValue.fromRawValue(image.format.raw);
-    // validate format depending on platform
-    // only supported formats:
-    // * nv21 for Android
-    // * bgra8888 for iOS
     if (format == null ||
         (Platform.isAndroid && format != InputImageFormat.nv21) ||
         (Platform.isIOS && format != InputImageFormat.bgra8888)) return null;
 
-    // since format is constraint to nv21 or bgra8888, both only have one plane
     if (image.planes.length != 1) return null;
     final plane = image.planes.first;
 
-    // compose InputImage using bytes
     return InputImage.fromBytes(
       bytes: plane.bytes,
       metadata: InputImageMetadata(

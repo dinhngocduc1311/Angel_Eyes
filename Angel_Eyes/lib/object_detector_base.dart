@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';
 import 'package:angel_eyes/globals.dart' as globals;
 
-import '../controllers/coordinates_translator.dart';
+import 'coordinates.dart';
 
 import './text_to_speech.dart';
 
