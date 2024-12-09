@@ -171,11 +171,12 @@ class _CameraViewState extends State<CameraView> {
         ),
       );
   bool _isModeActive = false;
+  
   Widget _voiceButton() => Align(
     alignment: Alignment.bottomCenter,
     child: SizedBox(
-      height: MediaQuery.of(context).size.height * 0.15, // 15% chiều cao màn hình
-      width: MediaQuery.of(context).size.width * 0.9, // 90% chiều rộng màn hình
+      height: MediaQuery.of(context).size.height * 0.25, // 15% chiều cao màn hình
+      width: MediaQuery.of(context).size.width * 1, // 90% chiều rộng màn hình
       child: FloatingActionButton(
         heroTag: Object(),
         onPressed: () {
@@ -187,14 +188,48 @@ class _CameraViewState extends State<CameraView> {
             _isModeActive = !_isModeActive;
           });
         },
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.yellow[200],
         child: Icon(
           _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
-          size: 25,
+          size: 30,
         ),
       ),
     ),
   );
+/*
+  Widget _voiceButton() => Align(
+      alignment: Alignment.bottomCenter,
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.25, // 15% chiều cao màn hình
+        width: MediaQuery.of(context).size.width * 1, // 90% chiều rộng màn hình
+        child: FloatingActionButton(
+          heroTag: Object(),
+          onPressed: () {
+            _speechToText.isListening ? stopListening() : startListening();
+            if (_isModeActive) {
+              globals.targetSearch = "";
+            }
+            setState(() {
+              _isModeActive = !_isModeActive;
+            });
+          },
+          backgroundColor: Colors.white,
+          child: Container(
+            decoration: BoxDecoration(
+              color: _speechToText.isListening ? Colors.green : Colors.red, // Change based on state
+              shape: BoxShape.circle, // Ensure it's a circle
+            ),
+            padding: EdgeInsets.all(8), // Add some padding for better visuals
+            child: Icon(
+              _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
+              size: 30,
+              color: Colors.white, // Icon color
+            ),
+          ),
+        ),
+      ),
+    );
+*/
   Widget _additionalText() => Positioned(
     top: 64,
     left: 8,
@@ -203,18 +238,18 @@ class _CameraViewState extends State<CameraView> {
       children: [
         Text(
         _speechToText.isListening ? "Listening..." : _speechEnabled
-        ? "Tap the microphone to start listening..." : "Speech not available",
+        ? "Scanning object on progress" : "Error",
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.0,
+            color: Colors.black,
+            fontSize: 20.0,
           ),
         ),
-        // if (confidenceLevel > 0 && _speechToText.isNotListening)
+      
           Text(
             globals.targetSearch,
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 10.0,
+              color: Colors.black,
+              fontSize: 20.0,
             ),
           ),
 
