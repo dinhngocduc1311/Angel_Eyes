@@ -1,5 +1,5 @@
 import 'package:angel_eyes/detector_view.dart';
-import 'package:angel_eyes/object_detector_base.dart';
+import 'package:angel_eyes/object_detector_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';

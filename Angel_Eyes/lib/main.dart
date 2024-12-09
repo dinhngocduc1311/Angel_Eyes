@@ -1,3 +1,4 @@
+import 'package:angel_eyes/object_detector_view.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 import 'package:wakelock/wakelock.dart';

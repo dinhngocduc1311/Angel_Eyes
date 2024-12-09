@@ -7,7 +7,7 @@ class DepthEstimator {
   late Interpreter _interpreter;
 
   Future<void> loadModel() async {
-    _interpreter = await Interpreter.fromAsset('your_model.tflite');
+    _interpreter = await Interpreter.fromAsset('ml/midas.tflite');
   }
 
   Future<Uint8List> predictDepth(Uint8List inputImageBytes) async {
@@ -15,7 +15,7 @@ class DepthEstimator {
     final input = _preprocessImage(inputImageBytes);
 
     // Allocate output buffer
-    final output = List.filled(input.length, 0.0).reshape([1, 256, 256]); // Change dimensions based on model
+    final output = List.generate(1, (_) => List.generate(256, (_) => List.filled(256, 0.0))); // Change dimensions based on model
 
     // Run inference
     _interpreter.run(input, output);
