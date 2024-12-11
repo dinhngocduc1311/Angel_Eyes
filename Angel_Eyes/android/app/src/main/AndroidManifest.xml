@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <application
-        android:label="angel_eyes"
+        android:label="Angel Eyes"
         android:name="${applicationName}"
         android:icon="@mipmap/logo">
         <activity

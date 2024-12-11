@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -59,7 +58,7 @@ class _CameraViewState extends State<CameraView> {
     if (_cameras.isEmpty) {
       _cameras = await availableCameras();
       _speechEnabled = await _speechToText.initialize();
-      await speak("Tap the microphone in the bottom to start listening");
+      await speak("Tap the area in the bottom to turn on microphone");
     }
     for (var i = 0; i < _cameras.length; i++) {
       if (_cameras[i].lensDirection == widget.initialCameraLensDirection) {
@@ -80,14 +79,14 @@ class _CameraViewState extends State<CameraView> {
 
   void startListening() async{
     await _speechToText.listen(onResult: onSpeechResult);
-    await speak("Listening");
+    await speak("On listening");
     setState(() {
       confidenceLevel = 0;
     });
   }
   void stopListening() async{
     await _speechToText.stop();
-    await speak("Stop listening, tap the microphone to start listening");
+    await speak("Microphone off, tap the area in the bottom to turn on microphone");
     setState(() {
       // globals.targetSearch = "";
       wordsSpoken = "";
@@ -103,7 +102,7 @@ class _CameraViewState extends State<CameraView> {
 
   void extractTargetObject(String spokenText) {
     String tmpText = spokenText.toLowerCase();
-    String cleanedText = tmpText.replaceAll("tìm", "").trim();
+    String cleanedText = tmpText.replaceAll("ởđâu|tìm", "").trim();
       List<String> words = cleanedText.split(" ");
       setState(() {
         globals.targetSearch = words.join("");
@@ -138,8 +137,8 @@ class _CameraViewState extends State<CameraView> {
         children: <Widget>[
           Center(
             child: _changingCameraLens
-                ? Center(
-                    child: const Text('Changing camera lens'),
+                ? const Center(
+                    child: Text('Changing camera lens'),
                   )
                 : CameraPreview(
                     _controller!,
@@ -163,7 +162,7 @@ class _CameraViewState extends State<CameraView> {
             heroTag: Object(),
             onPressed: widget.onDetectorViewModeChanged,
             backgroundColor: Colors.black54,
-            child: Icon(
+            child: const Icon(
               Icons.photo_library_outlined,
               size: 25,
             ),
@@ -171,37 +170,12 @@ class _CameraViewState extends State<CameraView> {
         ),
       );
   bool _isModeActive = false;
-  
-  Widget _voiceButton() => Align(
-    alignment: Alignment.bottomCenter,
-    child: SizedBox(
-      height: MediaQuery.of(context).size.height * 0.25, // 15% chiều cao màn hình
-      width: MediaQuery.of(context).size.width * 1, // 90% chiều rộng màn hình
-      child: FloatingActionButton(
-        heroTag: Object(),
-        onPressed: () {
-          _speechToText.isListening ? stopListening() : startListening();
-          if(_isModeActive) {
-            globals.targetSearch = "";
-          }
-          setState(() {
-            _isModeActive = !_isModeActive;
-          });
-        },
-        backgroundColor: Colors.yellow[200],
-        child: Icon(
-          _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
-          size: 30,
-        ),
-      ),
-    ),
-  );
-/*
+
   Widget _voiceButton() => Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.25, // 15% chiều cao màn hình
-        width: MediaQuery.of(context).size.width * 1, // 90% chiều rộng màn hình
+        height: MediaQuery.of(context).size.height * 0.35,
+        width: MediaQuery.of(context).size.width * 1,
         child: FloatingActionButton(
           heroTag: Object(),
           onPressed: () {
@@ -213,43 +187,38 @@ class _CameraViewState extends State<CameraView> {
               _isModeActive = !_isModeActive;
             });
           },
-          backgroundColor: Colors.white,
+          backgroundColor: _speechToText.isNotListening ? Colors.yellow[600] : const Color(0xFF529BC8),
           child: Container(
-            decoration: BoxDecoration(
-              color: _speechToText.isListening ? Colors.green : Colors.red, // Change based on state
-              shape: BoxShape.circle, // Ensure it's a circle
-            ),
-            padding: EdgeInsets.all(8), // Add some padding for better visuals
             child: Icon(
               _speechToText.isNotListening ? Icons.mic_off : Icons.mic,
-              size: 30,
+              size: 70,
               color: Colors.white, // Icon color
             ),
           ),
         ),
       ),
     );
-*/
   Widget _additionalText() => Positioned(
     top: 64,
-    left: 8,
+    left: 20,
+    right: 8,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
         _speechToText.isListening ? "Listening..." : _speechEnabled
         ? "Scanning object on progress" : "Error",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20.0,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
           ),
         ),
       
           Text(
             globals.targetSearch,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
-              fontSize: 20.0,
+              fontSize: 15.0,
             ),
           ),
 

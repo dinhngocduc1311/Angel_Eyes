@@ -142,7 +142,7 @@ class ObjectDetectorPainter extends CustomPainter {
           lastSpokenWord = text_to_speech;
         }
         builder.pop();
-      } else if (globals.targetSearch == "môtảxungquanh") {
+      } else if (globals.targetSearch == "nhìnxungquanh" || globals.targetSearch == "xemxungquanh" || globals.targetSearch == "môtảxungquanh") {
         final label = detectedObject.labels
             .reduce((a, b) => a.confidence > b.confidence ? a : b);
         builder.pushStyle(

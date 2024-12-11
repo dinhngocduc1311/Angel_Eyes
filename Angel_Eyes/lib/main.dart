@@ -1,9 +1,9 @@
-import 'package:angel_eyes/object_detector_view.dart';
 import 'package:flutter/material.dart';
+import 'text_to_speech.dart';
 import 'package:vibration/vibration.dart';
+import 'package:angel_eyes/object_detector_view.dart';
 import 'package:wakelock/wakelock.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:angel_eyes/initial.dart';
+import 'initial.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Angel Eyes',
+      title: 'Angle Eyes',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -37,7 +37,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final FlutterTts _flutterTts = FlutterTts();
 
   @override
   void initState() {
@@ -53,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _speak() async {
-    await _flutterTts.speak("Welcome to Angel Eyes. The main screen will appear in 5 seconds...");
+    await speak("Welcome to Angel Eyes - Vision for a Brighter Future. The main screen will appear right now...");
   }
 
   Future<void> _vibrate() async {
@@ -67,38 +66,66 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           const Positioned(
-            top: 60,
+            top: 64,
             left: 8,
             right: 8,
             child: Center(
               child: Text(
-                'Welcome to Angel Eyes. The main screen will appear in 5 seconds...',
+                'Welcome to Angel Eyes - Vision for a Brighter Future.\nThe main screen will appear right now...',
                 style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.white,
+                  fontSize: 12.0,
+                  color: Colors.black,
                 ),
               ),
             ),
           ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/logo.png', width: 150, height: 150),
-                const SizedBox(height: 10),
-                const Text(
-                  'Angel Eyes',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+          Positioned(
+            top: 250, // Adjust this value to move the logo higher or lower
+            left: 8,
+            right: 8,
+            child: Center(
+              child: Column(
+                children: [
+                  Image.asset('assets/logo.png', width: 150, height: 150),
+                  RichText(
+                    text: const TextSpan(
+                      style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Angel ',
+                          style: TextStyle(
+                            color: Color(0xFFB9B9B9),
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'Eyes',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  const Text(
+                    'Vision for a Brighter Future',
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black
+                    ),
+                  ),
+                  Image.asset(
+                    'assets/blind-man-cross.jpg',  // Replace with your second image path
+                    width: 300,
+                    height: 300),
+                ],
+              ),
             ),
           ),
         ],
