@@ -1,5 +1,5 @@
 import 'dart:io';
-
+// Import các thư viện cần thiết cho chức năng camera, nhận diện hình ảnh, giọng nói và xử lý giao diện.
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +7,7 @@ import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'globals.dart' as globals;
 import 'text_to_speech.dart';
-
+// Widget CameraView quản lý hiển thị và xử lý luồng video từ camera.
 class CameraView extends StatefulWidget {
   CameraView(
       {Key? key,
@@ -53,7 +53,7 @@ class _CameraViewState extends State<CameraView> {
     _initialize();
     // initSpeech();
   }
-
+// Hàm khởi tạo camera và nhận diện giọng nói.
   void _initialize() async {
     if (_cameras.isEmpty) {
       _cameras = await availableCameras();
@@ -76,7 +76,7 @@ class _CameraViewState extends State<CameraView> {
   //   setState(() {
   //   });
   // }
-
+ // Bắt đầu nhận diện giọng nói.
   void startListening() async{
     await _speechToText.listen(onResult: onSpeechResult);
     await speak("On listening");
@@ -84,6 +84,7 @@ class _CameraViewState extends State<CameraView> {
       confidenceLevel = 0;
     });
   }
+  // Dừng nhận diện giọng nói.
   void stopListening() async{
     await _speechToText.stop();
     await speak("Microphone off, tap the area in the bottom to turn on microphone");
@@ -92,6 +93,7 @@ class _CameraViewState extends State<CameraView> {
       wordsSpoken = "";
     });
   }
+   // Xử lý kết quả nhận diện giọng nói.
   void onSpeechResult(result){
     setState(() {
       wordsSpoken = _speechToText.isListening ? "${result.recognizedWords}" : "" ;
